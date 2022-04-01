@@ -24,12 +24,12 @@ public class UserController {
 
 	@Autowired
 	UserRepository userRepo;
-	
+
 	@GetMapping("/users")
 	public List<User> getAllUser() {
 		return userRepo.findAll();
 	}
-	
+
 	@GetMapping("/user/{id}")
 	public User getUserById(@PathVariable int id) {
 		Optional<User> resultRequest = userRepo.findById(id);
@@ -51,7 +51,7 @@ public class UserController {
 				.buildAndExpand(userAdded.getId()).toUri();
 		return ResponseEntity.created(location).build();
 	}
-	
+
 	@PutMapping("/update/user/{id}")
 	public User updateUserToDatabase(@PathVariable int id, @RequestBody User updateUser) {
 		User userToUpdate = userRepo.save(updateUser);
@@ -61,7 +61,7 @@ public class UserController {
 		}
 		return null;
 	}
-	
+
 	@PutMapping("/delete/user/{id}")
 	public User deleteUserToDatabase(@PathVariable int id) {
 		Optional<User> resultRequest = userRepo.findById(id);

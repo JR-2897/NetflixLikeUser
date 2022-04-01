@@ -18,14 +18,18 @@ public class User implements Serializable {
 	private String lastName;
 	private String firstName;
 	private String email;
+	private String address;
 	private String pays;
 	private UserStatus status;
-	
-	public User(Integer id, String lastName, String firstName, String email, String pays, UserStatus status) {
+
+	public User(Integer id, String lastName, String firstName, String email, String address, String pays,
+			UserStatus status) {
+		super();
 		this.id = id;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
+		this.address = address;
 		this.pays = pays;
 		this.status = status;
 	}
@@ -76,6 +80,14 @@ public class User implements Serializable {
 
 	public void setStatus(UserStatus status) {
 		this.status = status;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }
