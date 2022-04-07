@@ -9,7 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable {
 
 	public enum UserStatus {
-		ACTIVE, SUSPENDED, REMOVED;
+		ACTIVE, SUSPENDED, REMOVED, ADMIN;
+	}
+	
+	public enum Country {
+		FR, US, DE, GB;
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -19,10 +23,10 @@ public class User implements Serializable {
 	private String firstName;
 	private String email;
 	private String address;
-	private String pays;
+	private Country pays;
 	private UserStatus status;
 
-	public User(Integer id, String lastName, String firstName, String email, String address, String pays,
+	public User(Integer id, String lastName, String firstName, String email, String address, Country pays,
 			UserStatus status) {
 		super();
 		this.id = id;
@@ -66,11 +70,11 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getPays() {
+	public Country getPays() {
 		return pays;
 	}
 
-	public void setPays(String pays) {
+	public void setPays(Country pays) {
 		this.pays = pays;
 	}
 
