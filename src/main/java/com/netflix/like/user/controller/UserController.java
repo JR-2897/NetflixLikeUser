@@ -142,7 +142,7 @@ public class UserController {
 		}
 		String jsonStr = mapper.writeValueAsString(obj);
 		JSONObject json = new JSONObject(jsonStr);
-		if (json.getString("status").equals("ACTIVE")) {
+		if (!json.getString("status").equals("ADMIN")) {
 			Optional<User> resultRequest = userRepo.findById(id);
 			User userToDelete = null;
 			if (resultRequest != null) {
