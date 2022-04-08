@@ -23,10 +23,10 @@ public class User implements Serializable {
 	private String firstName;
 	private String email;
 	private String address;
-	private Country pays;
+	private Country country;
 	private UserStatus status;
 
-	public User(Integer id, String lastName, String firstName, String email, String address, Country pays,
+	public User(Integer id, String lastName, String firstName, String email, String address, Country country,
 			UserStatus status) {
 		super();
 		this.id = id;
@@ -34,7 +34,7 @@ public class User implements Serializable {
 		this.firstName = firstName;
 		this.email = email;
 		this.address = address;
-		this.pays = pays;
+		this.country = country;
 		this.status = status;
 	}
 
@@ -70,12 +70,12 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public Country getPays() {
-		return pays;
+	public Country getCountry() {
+		return country;
 	}
 
-	public void setPays(Country pays) {
-		this.pays = pays;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	public UserStatus getStatus() {

@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.json.JSONObject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.like.user.model.User;
 import com.netflix.like.user.model.User.UserStatus;
 import com.netflix.like.user.repository.UserRepository;
@@ -36,7 +39,8 @@ public class UserController {
 	String urlUser = "http://localhost:8081/";
 
 	@PostMapping("/users")
-	public ResponseEntity<List<User>> getAllUser(@RequestBody int idUser) {
+	public ResponseEntity<List<User>> getAllUser(@RequestBody int idUser) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		HttpEntity<String> request = new HttpEntity<String>(headers);
@@ -46,7 +50,9 @@ public class UserController {
 		if (Objects.isNull(obj)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if (obj.equals("ADMIN")) {
+		String jsonStr = mapper.writeValueAsString(obj);
+		JSONObject json = new JSONObject(jsonStr);
+		if (json.getString("status").equals("ADMIN")) {
 			return ResponseEntity.ok(userRepo.findAll());
 		}
 
@@ -54,7 +60,8 @@ public class UserController {
 	}
 
 	@PostMapping("/user/{id}")
-	public ResponseEntity<User> getUserById(@RequestBody int idUser, @PathVariable int id) {
+	public ResponseEntity<User> getUserById(@RequestBody int idUser, @PathVariable int id) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		HttpEntity<String> request = new HttpEntity<String>(headers);
@@ -64,7 +71,9 @@ public class UserController {
 		if (Objects.isNull(obj)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if (obj.equals("ACTIVE")) {
+		String jsonStr = mapper.writeValueAsString(obj);
+		JSONObject json = new JSONObject(jsonStr);
+		if (json.getString("status").equals("ACTIVE")) {
 			Optional<User> resultRequest = userRepo.findById(id);
 			if (resultRequest != null) {
 				return ResponseEntity.ok(resultRequest.get());
@@ -97,7 +106,8 @@ public class UserController {
 
 	@PutMapping("/update/user/{id}")
 	public ResponseEntity<User> updateUserToDatabase(@RequestBody int idUser, @PathVariable int id,
-			@RequestBody User updateUser) {
+			@RequestBody User updateUser) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		HttpEntity<String> request = new HttpEntity<String>(headers);
@@ -107,7 +117,9 @@ public class UserController {
 		if (Objects.isNull(obj)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if (obj.equals("ACTIVE")) {
+		String jsonStr = mapper.writeValueAsString(obj);
+		JSONObject json = new JSONObject(jsonStr);
+		if (json.getString("status").equals("ACTIVE")) {
 			User userUpdate = userRepo.save(updateUser);
 			if (!Objects.isNull(userUpdate)) {
 				return ResponseEntity.ok(userUpdate);
@@ -117,7 +129,8 @@ public class UserController {
 	}
 
 	@DeleteMapping("/delete/user/{id}")
-	public ResponseEntity<User> deleteUserToDatabase(@RequestBody int idUser,@PathVariable int id) {
+	public ResponseEntity<User> deleteUserToDatabase(@RequestBody int idUser,@PathVariable int id) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		HttpEntity<String> request = new HttpEntity<String>(headers);
@@ -127,7 +140,9 @@ public class UserController {
 		if (Objects.isNull(obj)) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		if (obj.equals("ACTIVE")) {
+		String jsonStr = mapper.writeValueAsString(obj);
+		JSONObject json = new JSONObject(jsonStr);
+		if (json.getString("status").equals("ACTIVE")) {
 			Optional<User> resultRequest = userRepo.findById(id);
 			User userToDelete = null;
 			if (resultRequest != null) {
