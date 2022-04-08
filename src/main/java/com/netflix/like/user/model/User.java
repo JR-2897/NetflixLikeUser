@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable {
 
 	public enum UserStatus {
-		ACTIVE, SUSPENDED, REMOVED, ADMIN;
+		ACTIVE, SUSPENDED, REMOVED, ADMIN, PROVIDER;
 	}
 	
 	public enum Country {

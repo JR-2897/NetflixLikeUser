@@ -104,8 +104,8 @@ public class UserController {
 		return ResponseEntity.created(location).build();
 	}
 
-	@PutMapping("/update/user/{id}")
-	public ResponseEntity<User> updateUserToDatabase(@RequestBody int idUser, @PathVariable int id,
+	@PutMapping("/update/user/{id}/{idUser}")
+	public ResponseEntity<User> updateUserToDatabase(@PathVariable int idUser, @PathVariable int id,
 			@RequestBody User updateUser) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
@@ -128,8 +128,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 
-	@DeleteMapping("/delete/user/{id}")
-	public ResponseEntity<User> deleteUserToDatabase(@RequestBody int idUser,@PathVariable int id) throws JsonProcessingException {
+	@DeleteMapping("/delete/user/{id}/")
+	public ResponseEntity<User> deleteUserToDatabase(@RequestBody int idUser, @PathVariable int id) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
