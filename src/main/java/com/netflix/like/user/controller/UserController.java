@@ -73,7 +73,7 @@ public class UserController {
 		}
 		String jsonStr = mapper.writeValueAsString(obj);
 		JSONObject json = new JSONObject(jsonStr);
-		if (json.getString("status").equals("ACTIVE")) {
+		if (!json.getString("status").equals("SUSPENDED") || !json.getString("status").equals("REMOVED")) {
 			Optional<User> resultRequest = userRepo.findById(id);
 			if (resultRequest != null) {
 				return ResponseEntity.ok(resultRequest.get());
@@ -149,6 +149,36 @@ public class UserController {
 				userToDelete = resultRequest.get();
 			}
 			userToDelete.setStatus(UserStatus.REMOVED);
+			User user = userRepo.save(userToDelete);
+			if (!Objects.isNull(user)) {
+				return ResponseEntity.ok(user);
+			}
+		}
+
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+
+	@PostMapping("/suspend/user/{id}/")
+	public ResponseEntity<User> suspendUserToDatabase(@RequestBody int idUser, @PathVariable int id) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+
+		Object obj = restTemplate.exchange(urlUser + "user/status/" + idUser, HttpMethod.GET, request, Object.class)
+				.getBody();
+		if (Objects.isNull(obj)) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		String jsonStr = mapper.writeValueAsString(obj);
+		JSONObject json = new JSONObject(jsonStr);
+		if (!json.getString("status").equals("ADMIN")) {
+			Optional<User> resultRequest = userRepo.findById(id);
+			User userToDelete = null;
+			if (resultRequest != null) {
+				userToDelete = resultRequest.get();
+			}
+			userToDelete.setStatus(UserStatus.SUSPENDED);
 			User user = userRepo.save(userToDelete);
 			if (!Objects.isNull(user)) {
 				return ResponseEntity.ok(user);
