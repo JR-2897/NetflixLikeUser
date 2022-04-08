@@ -36,7 +36,8 @@ public class UserController {
 
 	RestTemplate restTemplate = new RestTemplate();
 
-	String urlUser = "http://localhost:8081/";
+	//String urlUser = "http://localhost:8081/";
+	String urlUser = "http://user-webservice-app:8081/";
 
 	@PostMapping("/users")
 	public ResponseEntity<List<User>> getAllUser(@RequestBody int idUser) throws JsonProcessingException {
